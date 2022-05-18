@@ -33,7 +33,6 @@ public class AttachmentController {
 				.path("/download/")
 				.path(attachment.getId())
 				.toUriString();
-		
 		return new ResponseData(attachment.getFileName(),
 								downloadURL,
 								file.getContentType(),
@@ -45,15 +44,10 @@ public class AttachmentController {
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) throws Exception{
 		Attachment attachment = null;
 		attachment = attService.getAttachment(fileId);
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType(attachment.getFileType()))
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType(attachment.getFileType()))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + attachment.getFileName()
-				+ "\"").body(new ByteArrayResource(attachment.getData()));
+				+ "\"")
+				.body(new ByteArrayResource(attachment.getData()));
 	}
-	
-	
-	
-	
-	
-	
-
 }
